@@ -23,6 +23,7 @@ const userSchema = new Schema(
       enum:["user", "admin"],
       default:"user"
     },
+    
     favourites:{
       products:[
         {
@@ -42,7 +43,14 @@ const userSchema = new Schema(
             ref: "Track" 
         }
     ],
-    }
+    },
+
+    cart:[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+                ref: "Product"
+        }
+    ]
       
     
   },
