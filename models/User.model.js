@@ -17,7 +17,34 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required.']
+    },
+    role:{
+      type: String,
+      enum:["user", "admin"],
+      default:"user"
+    },
+    favourites:{
+      products:[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+                ref: "Product"
+        }
+      ],
+      sessions:[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Session"
+      }
+      ],
+      records: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Track" 
+        }
+    ],
     }
+      
+    
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

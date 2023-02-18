@@ -14,10 +14,10 @@ const djSchema = new Schema(
             type: String,
             required: [true, "description is required"],
         },
-        sesions: [
+        sessions: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Sesion"
+                ref: "Session"
             }
         ],
 

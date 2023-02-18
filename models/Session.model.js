@@ -1,6 +1,6 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
-const sesionSchema = new Schema(
+const sessionSchema = new Schema(
     {
        dj:{
         type: mongoose.Schema.Types.ObjectId,
@@ -20,5 +20,5 @@ const sesionSchema = new Schema(
     }
 );
 
-const Sesion = model("Sesion", sesionSchema);
-module.exports = Sesion;
+const Session = model("Sesion", sessionSchema);
+module.exports = Session;
