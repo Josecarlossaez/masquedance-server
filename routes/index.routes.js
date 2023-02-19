@@ -21,7 +21,7 @@ const productRoutes = require("./product.routes");
 router.use("/product", productRoutes);
 
 // * Session routes
-const sessionRoutes = require("/session.routes");
+const sessionRoutes = require("./session.routes");
 router.use("/session", sessionRoutes);
 
 // * Track routes

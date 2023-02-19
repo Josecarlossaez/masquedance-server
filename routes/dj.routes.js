@@ -8,7 +8,7 @@ const Dj = require("../models/Dj.model");
 // ** DJ ROUTES **
 
 // POST "/dj/create" => create dj
-router.post("/create", isAdmin, uploader.single("picture"), async(req, res, next) => {
+router.post("/create",isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
     const {name, picture, description} = req.body;
     try {
         await Dj.create({
@@ -35,7 +35,7 @@ router.get("/list", async(req,res,next) => {
 });
 
 // PATCH "/dj/:djId/update" => update dj
-router.patch("/:djId/update", isAdmin, async(req, res, next) => {
+router.patch("/:djId/update", isAuthenticated, isAdmin, async(req, res, next) => {
     const { djId } = req.params
     const {name, picture, description} = req.body;
 
@@ -53,7 +53,7 @@ router.patch("/:djId/update", isAdmin, async(req, res, next) => {
 });
 
 // DELETE "/dj/:djId/delete" => delete dj
-router.delete("/:djId/delete", isAdmin, async(req,res,next) => {
+router.delete("/:djId/delete",isAuthenticated, isAdmin, async(req,res,next) => {
     const { djId } = req.params
     try {
         await Dj.findByIdAndDelete(djId);
@@ -63,6 +63,18 @@ router.delete("/:djId/delete", isAdmin, async(req,res,next) => {
         next(error)
     }
 });
+
+// GET "/dj/:djId/details" => details of each Dj
+router.get("/:djId/details", async(req, res, next) => {
+    const { djId } = req.params
+    try {
+        const responseDetails = await Dj.findById( djId )
+        // sending info to client
+        res.status(200).json(responseDetails)
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 

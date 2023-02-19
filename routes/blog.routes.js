@@ -9,7 +9,7 @@ const Blog = require("../models/Blog.model");
 // ** BLOG ROUTES **  
  
 // POST "/blog/create" => Create blog
- router.post("/create", isAdmin, uploader.single("picture"), async(req,res,next) => {
+ router.post("/create", isAuthenticated, isAdmin, uploader.single("picture"), async(req,res,next) => {
     const {title, picture, description} = req.body;
     try {
          await Blog.create({
@@ -34,7 +34,7 @@ const Blog = require("../models/Blog.model");
  })
 
 // PATCH "/blog/:blogId/update" => Update blog
- router.patch("/:blogId/update", isAdmin, uploader.single("picture"), async(req,res,next) => {
+ router.patch("/:blogId/update", isAuthenticated, isAdmin, uploader.single("picture"), async(req,res,next) => {
     const{blogId} = req.params
     const {title, picture, description} = req.body;
     try {
@@ -51,7 +51,7 @@ const Blog = require("../models/Blog.model");
  });
  
 // DELETE "/blog/:blogId/delete" => Delete blog
- router.delete("/:blogId/delete", isAdmin, async(req, res, next) =>{
+ router.delete("/:blogId/delete", isAuthenticated, isAdmin, async(req, res, next) =>{
     const{blogId} = req.params
     try {
         await Blog.findByIdAndDelete(blogId);
@@ -64,11 +64,15 @@ const Blog = require("../models/Blog.model");
  })
 
 // GET "/blog/blogId/details" => blog details
- router.get("/blogId/details", async(req, res, next) => {
+ router.get("/:blogId/details", async(req, res, next) => {
     const {blogId} = req.params;
-    const responseDetails = await findById(blogId);
+    try {
+        const responseDetails = await Blog.findById(blogId);
     // sending info to client
     res.status(200).json(responseDetails)
+    } catch (error) {
+        next(error)
+    }
  })
 
 
