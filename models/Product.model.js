@@ -14,7 +14,14 @@ const productSchema = new Schema (
             type: Number,
             required: [true, "price is required"],
         },
-        size: String,
+        size: {
+            type: String,
+            default: "No necesita talla"
+        },
+        color:{
+            type: String,
+            default: " Sin color determinado"
+        },
 
         description: String,    
     },
