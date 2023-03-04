@@ -9,12 +9,12 @@ const Product = require("../models/Product.model")
 
 // POST "/product/create" => create Product
 router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
-    const {name, price, size, description, color} = req.body
+    const {name, price, size, description, color, picture} = req.body
     try {
         await Product.create({
             name: name,
             price: price,
-           
+            picture:picture,
             size: size,
             description: description,
             color: color,

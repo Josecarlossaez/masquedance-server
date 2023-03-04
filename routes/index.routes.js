@@ -26,11 +26,15 @@ router.use("/session", sessionRoutes);
 
 // * Track routes
 const trackRoutes = require("./track.routes");
-router.use("Track", trackRoutes);
+router.use("/track", trackRoutes);
 
 // * Video routes
 const videoRoutes = require("./video.routes");
-router.use("Video", videoRoutes);
+router.use("/video", videoRoutes);
+
+// * Upload routes
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes)
 
 
 module.exports = router;
