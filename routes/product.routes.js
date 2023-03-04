@@ -8,15 +8,16 @@ const Product = require("../models/Product.model")
 // * PRODUC ROUTES *
 
 // POST "/product/create" => create Product
-router.post("/create", isAdmin, uploader.single("picture"), async(req, res, next) => {
-    const {name, price, picture, size, description} = req.body
+router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
+    const {name, price, size, description, color} = req.body
     try {
         await Product.create({
             name: name,
             price: price,
-            picture: picture,
+           
             size: size,
             description: description,
+            color: color,
         });
         // sending info to client
         res.status(200).json("Product created correctly")
@@ -38,7 +39,7 @@ router.get("/list", async(req, res, next) => {
 });
 
 // PATCH "/product/:productId/update" => Update product
-router.patch("/:productId/update", isAdmin, uploader.single("picture"), async(req,res,next) => {
+router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("picture"), async(req,res,next) => {
     const { productId } = req.params
     const {name, price, picture, size, description} = req.body
 
@@ -58,7 +59,7 @@ router.patch("/:productId/update", isAdmin, uploader.single("picture"), async(re
 });
 
 // DELETE "/product/:productId/delete" => delete Product
-router.delete("/:productId/delete", isAdmin, async(req, res, next) =>{
+router.delete("/:productId/delete", isAdmin,isAuthenticated, async(req, res, next) =>{
     const { productId } = req.params
      try {
         await Product.findByIdAndDelete( productId )
