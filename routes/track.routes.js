@@ -1,5 +1,11 @@
 const router = require("express").Router();
-const uploadAudio = require("../middlewares/uploadAudio.middleware")
+const uploadAudio = require("../middlewares/audio.middleware")
+// const { uploadAudio, uploadImage } = require("../middlewares/audioImage.cloudinary");
+const uploadAudioMiddleware = require("../middlewares/audioImage.cloudinary")
+
+
+
+
 
 const { isAuthenticated, isAdmin } = require("../middlewares/auth.middleware");
 const uploader = require("../middlewares/cloudinary.middleware")
@@ -11,17 +17,23 @@ const Track = require("../models/Track.model")
 // ** TRACK ROUTES **  
 
 //POST "/track/create" => create Track
-router.post("/create", uploadAudio,  async(req, res, next) => {
-    const { title, dj, audio, picture } = req.body
+router.post("/create",uploadAudio,  async(req, res, next) => {
+    const { title, dj, audio, image } = req.body
     try {
        const response =  await Track.create({
           
-        title: title,
-            audio: req.file.url,
-            // picture: picture
+           title: title,
+          //  image: image,
+           audio: req.file.url,
+           dj: dj,
         })
+        console.log("req", req)
+        
+      // const searchTrackAndUpdate = await Track.findByIdAndUpdate()
+        
         // sending info to client
         res.status(200).json(response)
+      
     } catch (error) {
         next(error)
     }
