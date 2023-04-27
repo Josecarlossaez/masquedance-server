@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-// This route exist only for receive an image, bring to cloudinary and send the URL to the front.E
+// This route exists only for receive an image, bring to cloudinary and send the URL to the front.E
 const uploader = require("../middlewares/cloudinary.middleware");
 
 router.post("/", uploader.single("picture"), (req, res, next) => {
