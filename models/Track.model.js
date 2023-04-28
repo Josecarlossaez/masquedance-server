@@ -6,7 +6,7 @@ const trackSchema = new Schema(
             type: String,
             required: [false, "title is required"],
         },
-        image: {
+        picture: {
             type: String,
             required: [false, "picture is required"],
         },

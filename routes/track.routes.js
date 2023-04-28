@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const uploadAudio = require("../middlewares/audio.middleware")
-// const { uploadAudio, uploadImage } = require("../middlewares/audioImage.cloudinary");
-const uploadAudioMiddleware = require("../middlewares/audioImage.cloudinary")
+
+
 
 
 
@@ -17,14 +17,14 @@ const Track = require("../models/Track.model")
 // ** TRACK ROUTES **  
 
 //POST "/track/create" => create Track
-router.post("/create",uploadAudio,  async(req, res, next) => {
-    const { title, dj, audio, image } = req.body
+router.post("/create",  async(req, res, next) => {
+    const { title, dj, audio, picture } = req.body
     try {
        const response =  await Track.create({
           
            title: title,
-          //  image: image,
-           audio: req.file.url,
+           picture: picture,
+           audio: audio,
            dj: dj,
         })
         console.log("req", req)
