@@ -41,7 +41,7 @@ router.get("/list", async(req, res, next) => {
 // PATCH "/product/:productId/update" => Update product
 router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("picture"), async(req,res,next) => {
     const { productId } = req.params
-    const {name, price, picture, size, description} = req.body
+    const {name, price, picture, size, description, cantidad} = req.body
 
     try {
         await Product.findByIdAndUpdate( productId, {
@@ -50,6 +50,7 @@ router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("pi
             picture: picture,
             size: size,
             description: description,
+            cantidad: cantidad,
         });
         // sending info to client
         res.status(200).json("Product updated correctly")

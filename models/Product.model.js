@@ -22,6 +22,10 @@ const productSchema = new Schema (
             type: String,
             default: " Sin color determinado"
         },
+        cantidad:{
+            type: Number,
+            required: [ true, "cantidad is required"],
+        },
 
         description: String,    
     },
