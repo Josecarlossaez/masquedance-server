@@ -9,13 +9,17 @@ const Product = require("../models/Product.model")
 
 // POST "/product/create" => create Product
 router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
-    const {name, price, size, description, color, picture} = req.body
+    const {name, price, description, color, picture, cantidadSizeS,cantidadSizeM,cantidadSizeL,cantidadSizeXL,cantidadSizeXXL} = req.body
     try {
         await Product.create({
             name: name,
             price: price,
             picture:picture,
-            size: size,
+            cantidadSizeS: cantidadSizeS,
+            cantidadSizeM: cantidadSizeM,
+            cantidadSizeL: cantidadSizeL,
+            cantidadSizeXL: cantidadSizeXL,
+            cantidadSizeXXL: cantidadSizeXXL,
             description: description,
             color: color,
         });
@@ -41,16 +45,16 @@ router.get("/list", async(req, res, next) => {
 // PATCH "/product/:productId/update" => Update product
 router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("picture"), async(req,res,next) => {
     const { productId } = req.params
-    const {name, price, picture, size, description, cantidad} = req.body
+    const {name, price, picture, size, description, cantidad,color} = req.body
 
     try {
         await Product.findByIdAndUpdate( productId, {
             name: name,
             price: price,
+            description: description,
             picture: picture,
             size: size,
-            description: description,
-            cantidad: cantidad,
+            
         });
         // sending info to client
         res.status(200).json("Product updated correctly")
@@ -74,8 +78,13 @@ router.delete("/:productId/delete", isAdmin,isAuthenticated, async(req, res, nex
 // GET "/product/productId/details" => details of product
  router.get("/:productId/details", async(req, res, next) => {
     const { productId } = req.params
-
-    const responseDetails = await Product.findById( productId )
+     try {
+        const responseDetails = await Product.findById( productId )
+        res.status(200).json(responseDetails)
+     } catch (error) {
+        next(error)
+     }
+    
  })
 
 

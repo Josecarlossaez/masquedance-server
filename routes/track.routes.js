@@ -8,8 +8,7 @@ const uploadAudio = require("../middlewares/audio.middleware")
 
 
 const { isAuthenticated, isAdmin } = require("../middlewares/auth.middleware");
-const uploader = require("../middlewares/cloudinary.middleware")
-// CLOUDINARY
+
 
 const Track = require("../models/Track.model")
 
@@ -17,7 +16,7 @@ const Track = require("../models/Track.model")
 // ** TRACK ROUTES **  
 
 //POST "/track/create" => create Track
-router.post("/create",  async(req, res, next) => {
+router.post("/create", async(req, res, next) => {
     const { title, dj, audio, picture } = req.body
     try {
        const response =  await Track.create({
@@ -29,7 +28,7 @@ router.post("/create",  async(req, res, next) => {
         })
         console.log("req", req)
         
-      // const searchTrackAndUpdate = await Track.findByIdAndUpdate()
+
         
         // sending info to client
         res.status(200).json(response)
