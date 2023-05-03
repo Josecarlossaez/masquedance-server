@@ -14,26 +14,13 @@ const productSchema = new Schema (
             type: Number,
             required: [true, "price is required"],
         },
-        cantidadSizeS: {
+        size: String,
+        reference: Boolean,
+        cantidad: {
             type: Number,
             default: "No necesita talla"
         },
-        cantidadSizeM: {
-            type: Number,
-            default: "No necesita talla"
-        },
-        cantidadSizeL: {
-            type: Number,
-            default: "No necesita talla"
-        },
-        cantidadSizeXL: {
-            type: Number,
-            default: "No necesita talla"
-        },
-        cantidadSizeXXL: {
-            type: Number,
-            default: "No necesita talla"
-        },
+     
         color:{
             type: String,
             default: " Sin color determinado"
