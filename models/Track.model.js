@@ -10,11 +10,11 @@ const trackSchema = new Schema(
             type: String,
             required: [false, "picture is required"],
         },
-        // dj: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "Dj",
-        //     required: [true, "dj is required"]
-        // },
+        dj: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Dj",
+            required: [true, "dj is required"]
+        },
         audio: {
             type: String,
             required: [false, "audio is required"]
