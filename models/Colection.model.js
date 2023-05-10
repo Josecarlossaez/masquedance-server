@@ -10,7 +10,7 @@ const colectionSchema = new Schema(
             type: Number,
             required: [true, "price is required"],
         },
-        product: {
+        products: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Product",   
         },
