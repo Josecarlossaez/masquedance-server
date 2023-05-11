@@ -86,7 +86,7 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
     try {
         const response = await Colection.findById(colectionId).populate("products")
         const findProduct = await Product.findById(productId)
-        console.log("findProduct", response);
+        console.log("findProduct", findProduct);
 
         if( response.products.length === 0 ) {
             // if the colection is empty will instatly add the product
@@ -97,8 +97,9 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
             // if is not empty, we will check if the product that we want to add its already in
             for(let i=0; i <response.products?.length; i++){
             console.log("3ntrando en for")
-                 if( response.products[i]._id === productId){
-                 res.status(401).json({errorMessage: "This product already exists in this colection"});
+            console.log("response.products._id", response.products);
+                 if( response.products[i].size === findProduct.size){
+                 res.status(400).json({errorMessage: "This product already exists in this colection"});
                  return
 
                  } else {
