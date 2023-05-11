@@ -4,6 +4,7 @@ const { isAuthenticated, isAdmin } = require("../middlewares/auth.middleware");
 
 
 const Colection = require("../models/Colection.model");
+const Product = require("../models/Product.model")
 
 // * COLECTION ROUTES   * //
 
@@ -70,6 +71,34 @@ router.get("/:colectionId/details", async (req, res, next) => {
         const responseDetails = await Colection.findById(colectionId).populate("products")
         //send info to client
         res.status(200).json(responseDetails);
+    } catch (error) {
+        next(error)
+    }
+});
+
+// "/colection/:ColectionId/add-product"
+router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res, next) => {
+    const {colectionId } = req.params;
+    const {productId} = req.body
+    console.log("colectionId",colectionId);
+    console.log("productId",productId);
+
+    try {
+        const response = await Colection.findById(colectionId).populate("products")
+        const findProduct = await Product.findById(productId)
+        console.log("findProduct", response);
+       
+        for(let i=0; i <response.products?.length; i++){
+            console.log("3ntrando en for")
+            if( response.products[i]._id === productId){
+                res.status(401).json({errorMessage: "This product already exists in this colection"});
+                return
+            } else{
+                console.log("entrando en else");
+                await Colection.findByIdAndUpdate(colectionId,{$addToSet:{products: findProduct}})
+                res.status(200).json("Producto añadido correctamente")
+            }
+        }
     } catch (error) {
         next(error)
     }

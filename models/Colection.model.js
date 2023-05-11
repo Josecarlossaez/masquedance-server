@@ -6,14 +6,17 @@ const colectionSchema = new Schema(
             type: String,
             required: [true, "name is required"],
         },
-        price: {
+        price: 
+        {
             type: Number,
             required: [true, "price is required"],
         },
-        products: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product",   
-        },
+        products: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product",   
+            },
+        ],
         picture: {
             type: String,
             required: [true, "picture is required"]
