@@ -87,18 +87,30 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
         const response = await Colection.findById(colectionId).populate("products")
         const findProduct = await Product.findById(productId)
         console.log("findProduct", response);
-       
-        for(let i=0; i <response.products?.length; i++){
+
+        if( response.products.length === 0 ) {
+            // if the colection is empty will instatly add the product
+            await Colection.findByIdAndUpdate(colectionId, {$addToSet:{products: findProduct}})
+            res.status(200).json("Product added to the collection correctly")
+
+        } else {
+            // if is not empty, we will check if the product that we want to add its already in
+            for(let i=0; i <response.products?.length; i++){
             console.log("3ntrando en for")
-            if( response.products[i]._id === productId){
-                res.status(401).json({errorMessage: "This product already exists in this colection"});
-                return
-            } else{
-                console.log("entrando en else");
-                await Colection.findByIdAndUpdate(colectionId,{$addToSet:{products: findProduct}})
-                res.status(200).json("Producto añadido correctamente")
+                 if( response.products[i]._id === productId){
+                 res.status(401).json({errorMessage: "This product already exists in this colection"});
+                 return
+
+                 } else {
+                    console.log("entrando en else");
+                    await Colection.findByIdAndUpdate(colectionId,{$addToSet:{products: findProduct}})
+                    res.status(200).json("Producto añadido correctamente")
+                    
+                 }
             }
         }
+       
+        
     } catch (error) {
         next(error)
     }
