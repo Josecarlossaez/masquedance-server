@@ -96,9 +96,9 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
         } else {
             // if is not empty, we will check if the product that we want to add its already in
             for(let i=0; i <response.products?.length; i++){
-            console.log("3ntrando en for")
+            console.log("productId", response.products[i]._id.toString())
             console.log("response.products._id", response.products);
-                 if( response.products[i].size === findProduct.size){
+                 if( response.products[i]._id.toString() === findProduct._id.toString()){
                  res.status(400).json({errorMessage: "This product already exists in this colection"});
                  return
 
