@@ -80,35 +80,38 @@ router.get("/:colectionId/details", async (req, res, next) => {
 router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res, next) => {
     const {colectionId } = req.params;
     const {productId} = req.body
-    console.log("colectionId",colectionId);
-    console.log("productId",productId);
+
+    console.log(" 1. productId Entrante",productId);
 
     try {
         const response = await Colection.findById(colectionId).populate("products")
         const findProduct = await Product.findById(productId)
-        console.log("findProduct", findProduct);
-
+        
+     console.log("2. FindProduct._id", findProduct._id)
+     console.log("3. Products length", response.products.length);
         if( response.products.length === 0 ) {
             // if the colection is empty will instatly add the product
             await Colection.findByIdAndUpdate(colectionId, {$addToSet:{products: findProduct}})
-            res.status(200).json("Product added to the collection correctly")
+            res.status(200).json({okMessage: "Product added to the collection correctly"})
 
         } else {
             // if is not empty, we will check if the product that we want to add its already in
-            for(let i=0; i <response.products?.length; i++){
-            console.log("productId", response.products[i]._id.toString())
-            console.log("response.products._id", response.products);
-                 if( response.products[i]._id.toString() === findProduct._id.toString()){
-                 res.status(400).json({errorMessage: "This product already exists in this colection"});
-                 return
-
-                 } else {
-                    console.log("entrando en else");
-                    await Colection.findByIdAndUpdate(colectionId,{$addToSet:{products: findProduct}})
-                    res.status(200).json("Producto añadido correctamente")
+            for(let i=0; i<response.products?.length; i++){
+                
+                if( response.products[i]._id.toString() === productId){
+                     console.log("4.", response.products[i]._id.toString());
+                    console.log("5.", [i])
+                    console.log("6.Aquí la coincidencia", productId);
+                    res.status(400).json({errorMessage: "This product already exists in this colection"});
+                    return
                     
+                 }else{
+                    continue
                  }
+              
             }
+            await Colection.findByIdAndUpdate(colectionId,{$addToSet:{products: findProduct}})
+            res.status(200).json("Producto añadido correctamente")
         }
        
         
