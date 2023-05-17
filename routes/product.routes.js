@@ -9,13 +9,13 @@ const Product = require("../models/Product.model")
 
 // POST "/product/create" => create Product
 router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
-    const {name, price, description, color, picture,cantidad, size, reference} = req.body
+    const {name, price, description, color, picture,stock, size,reference} = req.body
     try {
         await Product.create({
             name: name,
             price: price,
             picture:picture,
-            cantidad: cantidad, 
+            stock: stock, 
             description: description,
             color: color,
             size: size,
@@ -43,7 +43,7 @@ router.get("/list", async(req, res, next) => {
 // PATCH "/product/:productId/update" => Update product
 router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("picture"), async(req,res,next) => {
     const { productId } = req.params
-    const {name, price, picture, size, description, cantidad,color} = req.body
+    const {name, price, picture, size, description, stock,cantidad} = req.body
 
     try {
         await Product.findByIdAndUpdate( productId, {
@@ -52,6 +52,8 @@ router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("pi
             description: description,
             picture: picture,
             size: size,
+            cantidad: cantidad,
+            stock: stock,
             
         });
         // sending info to client

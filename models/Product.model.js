@@ -18,7 +18,11 @@ const productSchema = new Schema (
         reference: Boolean,
         cantidad: {
             type: Number,
-            default: "No necesita talla"
+            default: "1"
+        },
+        stock: {
+            type: Number,
+            required: [true, "stock is required"]
         },
      
         color:{
