@@ -10,7 +10,7 @@ const User = require("../models/User.model")
 
 // POST "/product/create" => create Product
 router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), async(req, res, next) => {
-    const {name, price, description, color, picture,stock, size,reference} = req.body
+    const {name, price, description, color, picture,stock, size} = req.body
     try {
         await Product.create({
             name: name,
@@ -20,7 +20,7 @@ router.post("/create",  isAuthenticated, isAdmin, uploader.single("picture"), as
             description: description,
             color: color,
             size: size,
-            reference: reference,
+           
         });
         // sending info to client
         res.status(200).json("Product created correctly")
