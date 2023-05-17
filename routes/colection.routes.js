@@ -52,7 +52,7 @@ router.patch("/:colectionId/update", isAuthenticated, isAdmin, async(req,res,nex
     }
 });
 
-// "/colection/:colectionId/delete" => delete colection
+// DELETE "/colection/:colectionId/delete" => delete colection
 router.delete("/:colectionId/delete",isAuthenticated, isAdmin, async (req,res,next) => {
     const {colectionId} = req.params
     try {
@@ -64,7 +64,7 @@ router.delete("/:colectionId/delete",isAuthenticated, isAdmin, async (req,res,ne
     }
 });
 
-// "/colection/:colectionId/details" => details of colection
+// GET "/colection/:colectionId/details" => details of colection
 router.get("/:colectionId/details", async (req, res, next) => {
     const {colectionId} = req.params;
     try {
@@ -76,19 +76,16 @@ router.get("/:colectionId/details", async (req, res, next) => {
     }
 });
 
-// "/colection/:ColectionId/add-product"
+// PATCH "/colection/:ColectionId/add-product"
 router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res, next) => {
     const {colectionId } = req.params;
     const {productId} = req.body
 
-    console.log(" 1. productId Entrante",productId);
 
     try {
         const response = await Colection.findById(colectionId).populate("products")
         const findProduct = await Product.findById(productId)
-        
-     console.log("2. FindProduct._id", findProduct._id)
-     console.log("3. Products length", response.products.length);
+    
         if( response.products.length === 0 ) {
             // if the colection is empty will instatly add the product
             await Colection.findByIdAndUpdate(colectionId, {$addToSet:{products: findProduct}})
@@ -99,9 +96,7 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
             for(let i=0; i<response.products?.length; i++){
                 
                 if( response.products[i]._id.toString() === productId){
-                     console.log("4.", response.products[i]._id.toString());
-                    console.log("5.", [i])
-                    console.log("6.Aquí la coincidencia", productId);
+                 
                     res.status(400).json({errorMessage: "This product already exists in this colection"});
                     return
                     
@@ -114,6 +109,19 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
             res.status(200).json("Producto añadido correctamente")
         }
        
+        
+    } catch (error) {
+        next(error)
+    }
+});
+
+// PATCH "/colection/:colectionId/remove-product" => Remove product from colection
+router.patch("/:colectionId/remove-product", isAuthenticated, isAdmin, async(req, res, next) => {
+    const {colectionId} = req.params
+    const {productId} = req.body
+    try {
+       await Colection.findByIdAndUpdate(colectionId,{$pull: {products: productId}})
+    res.status(200).json({okMessage: "Member removed from team correctly"})
         
     } catch (error) {
         next(error)

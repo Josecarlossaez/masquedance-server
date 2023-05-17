@@ -4,6 +4,7 @@ const { isAuthenticated, isAdmin } = require("../middlewares/auth.middleware");
 const uploader = require("../middlewares/cloudinary.middleware")
 
 const Product = require("../models/Product.model")
+const User = require("../models/User.model")
 
 // * PRODUC ROUTES *
 
@@ -41,7 +42,7 @@ router.get("/list", async(req, res, next) => {
 });
 
 // PATCH "/product/:productId/update" => Update product
-router.patch("/:productId/update", isAdmin, isAuthenticated, uploader.single("picture"), async(req,res,next) => {
+router.patch("/:productId/update", isAuthenticated, isAdmin,  uploader.single("picture"), async(req,res,next) => {
     const { productId } = req.params
     const {name, price, picture, size, description, stock,cantidad} = req.body
 
@@ -85,6 +86,20 @@ router.delete("/:productId/delete", isAdmin,isAuthenticated, async(req, res, nex
         next(error)
      }
     
+ });
+
+ // PATCH "/product/:productId/add-to-cart" => send product to user Cart
+ router.patch("/:productId/add-to-cart", isAuthenticated, async ( req, res, next) => {
+    const { productId } = req.params;
+    try {
+        
+        const productToCart = await Product.findById(productId)
+        await User.findByIdAndUpdate(req.payload._id, {$addToSet:{cart: productToCart}})
+        res.status(200).json("Producto añadido al carrito correctamente")
+    } catch (error) {
+        next(error)
+    }
+
  })
 
 
