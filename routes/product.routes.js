@@ -65,7 +65,7 @@ router.patch("/:productId/update", isAuthenticated, isAdmin,  uploader.single("p
 });
 
 // DELETE "/product/:productId/delete" => delete Product
-router.delete("/:productId/delete", isAdmin,isAuthenticated, async(req, res, next) =>{
+router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, next) =>{
     const { productId } = req.params
      try {
         await Product.findByIdAndDelete( productId )

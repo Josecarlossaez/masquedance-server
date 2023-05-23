@@ -80,9 +80,12 @@ router.get("/:colectionId/details", async (req, res, next) => {
 router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res, next) => {
     const {colectionId } = req.params;
     const {productId} = req.body
-
+    console.log("colectionId", colectionId);
+    
+   
 
     try {
+        
         const response = await Colection.findById(colectionId).populate("products")
         const findProduct = await Product.findById(productId)
     
@@ -92,6 +95,8 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
             res.status(200).json({okMessage: "Product added to the collection correctly"})
 
         } else {
+            // if colection hasn´t selected
+           
             // if is not empty, we will check if the product that we want to add its already in
             for(let i=0; i<response.products?.length; i++){
                 
@@ -111,6 +116,9 @@ router.patch("/:colectionId/add-product", isAuthenticated,isAdmin,async(req, res
        
         
     } catch (error) {
+        if(colectionId === undefined ){
+            return res.status(400).json({errorMessage: "Tienes que seleccionar una colección"})
+        }
         next(error)
     }
 });

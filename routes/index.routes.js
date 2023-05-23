@@ -35,9 +35,14 @@ router.use("/video", videoRoutes);
 // * Upload routes
 const uploadRoutes = require("./upload.routes");
 router.use("/upload", uploadRoutes)
+
 // * Colection routes
 const colectionRoutes = require("./colection.routes");
 router.use("/colection", colectionRoutes)
+
+// * User routes
+const userRoutes = require("./user.routes");
+router.use("/user", userRoutes)
 
 
 module.exports = router;
