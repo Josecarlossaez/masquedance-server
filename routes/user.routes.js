@@ -10,6 +10,15 @@ const User = require("../models/User.model")
 
 // GET "/user/cart" => List all cart products
 
+router.get("/cart", isAuthenticated, async(req, res, next) => {
+    try {
+       const response = await User.findById(req.payload._id).populate("cart")
+       res.status(200).json(response.cart)
+    
+   } catch (error) {
+    next(error)
+   }
 
+})
 
 module.exports = router;

@@ -102,5 +102,18 @@ router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, nex
 
  })
 
+ // PATCH "/product/:productId/remove-from-cart" => remove product from the user Cart
+ router.patch("/:productId/remove-from-cart", isAuthenticated, async ( req, res, next) => {
+    const { productId } = req.params;
+    try {
+        
+        const productToRemove = await Product.findById(productId)
+        await User.findByIdAndUpdate(req.payload._id, {$pull:{cart: productToRemove}})
+        res.status(200).json("Producto borrado del carrito correctamente")
+    } catch (error) {
+        next(error)
+    }
+
+ })
 
 module.exports = router;
