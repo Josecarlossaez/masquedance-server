@@ -44,5 +44,8 @@ router.use("/colection", colectionRoutes)
 const userRoutes = require("./user.routes");
 router.use("/user", userRoutes)
 
+// * Order routes
+const orderRoutes = require("./order.routes");
+router.use("/order",orderRoutes)
 
 module.exports = router;

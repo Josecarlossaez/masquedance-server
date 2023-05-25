@@ -1,63 +1,66 @@
 const { Schema, model, default: mongoose } = require("mongoose");
 
-
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
-    username:{
+    username: {
       type: String,
-      required: [true, "Username is required"]
+      required: [true, "Username is required"],
     },
     email: {
       type: String,
-      required: [true, 'Email is required.'],
+      required: [true, "Email is required."],
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
-      required: [true, 'Password is required.']
+      required: [true, "Password is required."],
     },
-    role:{
+    role: {
       type: String,
-      enum:["user", "admin"],
-      default:"user"
+      enum: ["user", "admin"],
+      default: "user",
     },
 
-    productFavourites:{
-      products:[
+    productFavourites: {
+      products: [
         {
           type: mongoose.Schema.Types.ObjectId,
-                ref: "Product",
-        }
+          ref: "Product",
+        },
       ],
-      sessions:[
+      sessions: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Session"
-      }
+          ref: "Session",
+        },
       ],
       records: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Track" 
-        }
-    ],
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Track",
+        },
+      ],
     },
 
-    cart:[
-        {
-          type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
-        }
-    ]
-      
-    
+    cart: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`    
-    timestamps: true
+    // this second object adds extra properties: `createdAt` and `updatedAt`
+    timestamps: true,
   }
 );
 
