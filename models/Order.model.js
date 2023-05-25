@@ -2,10 +2,7 @@ const { Schema, model, default: mongoose } = require("mongoose");
 
 const orderSchema = new Schema(
     {
-       orderNumber:{
-        type: Number,
-        
-       },
+
        date: {
         type: Date,
         default: Date.now
@@ -14,7 +11,7 @@ const orderSchema = new Schema(
         type: String,
         required: [true, "username is required"]
        },
-       mail: {
+       email: {
         type: String,
         required: [true, "mail is required"]
        },
@@ -30,8 +27,9 @@ const orderSchema = new Schema(
         enum:["pending", "delivered","canceled" ],
         default: "pending"
        },
-       timestamps: true,
-
+    },
+    {
+        timestamps: true,
     }
 );
 const Order = model("Order", orderSchema);

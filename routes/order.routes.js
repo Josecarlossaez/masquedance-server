@@ -4,20 +4,30 @@ const router = require("express").Router()
 // USER IS LOGGED
 const { isAuthenticated } = require("../middlewares/auth.middleware") 
 
+const Order = require("../models/Order.model")
+
 const User = require("../models/User.model")
+
 
 // * ORDER ROUTES *
 
 // POST "/order/create" => Create new order
 router.post("/create", isAuthenticated, async(req, res, next) => {
-   const {orderNumber, username, mail, orderCart, total} = req.body
+   const { username, email, orderCart, total} = req.body
+   console.log("entrando en la ruta");
    
-   const Order = {
-    orderNumber: orderNumber,
+   const order = {
     username: username,
-    mail: mail,
-    orderCart:{orderCart},
+    email: email,
+    orderCart:orderCart,
     total: total,
+   }
+   console.log("order", order)
+   try {
+    await Order.create(order)
+    res.status(200).json("order created successfully")
+   } catch (error) {
+    next(error)
    }
 })
 
