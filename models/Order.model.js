@@ -26,7 +26,7 @@ const orderSchema = new Schema(
         type: String,
         enum:["pending", "delivered","canceled" ],
         default: "pending"
-       },
+       },   
        name: {
         type: String,
         required: [true, "name is required"]
