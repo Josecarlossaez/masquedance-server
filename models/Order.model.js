@@ -27,6 +27,30 @@ const orderSchema = new Schema(
         enum:["pending", "delivered","canceled" ],
         default: "pending"
        },
+       name: {
+        type: String,
+        required: [true, "name is required"]
+       },
+       address: {
+        type: String,
+        required: [true, "address is required"]
+       },
+       town: {
+        type: String,
+        required: [true, "town is required"]
+       },
+       cp: {
+        type: String,
+        required: [true, "cp is required"]
+       },
+       province: {
+        type: String,
+        required: [true, "province is required"]
+       },
+       country: {
+        type: String,
+        required: [true, "country is required"]
+       },
     },
     {
         timestamps: true,
