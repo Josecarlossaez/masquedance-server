@@ -48,4 +48,8 @@ router.use("/user", userRoutes)
 const orderRoutes = require("./order.routes");
 router.use("/order",orderRoutes)
 
+// * Stripe routes
+const stripeRoutes = require("./stripe.routes");
+router.use("/stripe", stripeRoutes)
+
 module.exports = router;
