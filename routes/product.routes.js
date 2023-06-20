@@ -117,19 +117,19 @@ router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, nex
  });
  
  // PATCH "/product/productStock/update" => update produt stock after buy
- router.patch("/product/productStock/update", isAuthenticated, async (req, res, next) => {
+ router.post("/product-stock/update", isAuthenticated, async (req, res, next) => {
     console.log("entrando en la ruta de actualizar stock")
     const {orderCart} = req.body
     console.log("orderCArt", orderCart);
-    // for (each of orderCart){
-    //     console.log("each", each)
-    //     try {
-    //     await Product.findByIdAndUpdate(each._id,{stock: each.stock - each.cantidad})
-    //         res.status(200).json("Productos Actualizados")
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    for (each of orderCart){
+        console.log("each", each)
+        try {
+        await Product.findByIdAndUpdate(each._id,{stock: each.stock - each.cantidad})
+    } catch (error) {
+        next(error)
+    }
+}
+    res.status(200).json("Productos Actualizados")
  })
 
 
