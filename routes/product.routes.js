@@ -105,7 +105,7 @@ router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, nex
  // PATCH "/product/:productId/remove-from-cart" => remove product from the user Cart
  router.patch("/:productId/remove-from-cart", isAuthenticated, async ( req, res, next) => {
     const { productId } = req.params;
-    console.log("productId", productId);
+    
     try {
 
         await User.findByIdAndUpdate(req.payload._id, {$pull:{cart: productId}})
@@ -114,6 +114,22 @@ router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, nex
         next(error)
     }
 
+ });
+ 
+ // PATCH "/product/productStock/update" => update produt stock after buy
+ router.patch("/product/productStock/update", isAuthenticated, async (req, res, next) => {
+    console.log("entrando en la ruta de actualizar stock")
+    const {orderCart} = req.body
+    console.log("orderCArt", orderCart);
+    // for (each of orderCart){
+    //     console.log("each", each)
+    //     try {
+    //     await Product.findByIdAndUpdate(each._id,{stock: each.stock - each.cantidad})
+    //         res.status(200).json("Productos Actualizados")
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
  })
 
 

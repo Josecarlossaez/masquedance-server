@@ -24,7 +24,7 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
     province,
     country,
   } = req.body;
-  console.log("entrando en la ruta");
+
 
   const order = {
     username: username,
@@ -38,7 +38,7 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
     province: province,
     country: country,
   };
-  console.log("order", order);
+ 
   try {
     await Order.create(order);
     res.status(200).json("order created successfully");
