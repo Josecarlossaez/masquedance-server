@@ -116,7 +116,7 @@ router.delete("/:productId/delete",isAuthenticated, isAdmin, async(req, res, nex
 
  });
  
- // PATCH "/product/productStock/update" => update produt stock after buy
+ // POST "/product/productStock/update" => update produt stock after buy
  router.post("/product-stock/update", isAuthenticated, async (req, res, next) => {
     console.log("entrando en la ruta de actualizar stock")
     const {orderCart} = req.body
