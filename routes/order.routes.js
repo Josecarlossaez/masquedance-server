@@ -1,6 +1,11 @@
 // EXPRESS
 const router = require("express").Router();
 
+// TRANSPORTER FROM NODEMAILER.MIDDLEWARE
+
+const transporter = require("../middlewares/nodemailer.middleware")
+
+
 // USER IS LOGGED
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 
@@ -24,6 +29,7 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
     province,
     country,
   } = req.body;
+  console.log("email", email)
 
 
   const order = {
@@ -45,6 +51,42 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+
+  // SEND EMAIL TO USER AND OWNER.
+  // CONFIGURATION
+
+  const userMailOptions = {
+    from: 'masqdancedev@gmail.com',
+    to: email,
+    subject: `Pedido: ${order._id}`,
+    text: `Hola ${name}, muchas gracias por confiar en +QDance. Ha realizado el siguiente pedido: ${order}`
+  }
+
+  const ownerMailOptions = {
+    from: 'masqdancedev@gmail.com',
+    to: 'jcsaezfernandez@gmail.com',
+    subject: `Pedido: ${order._id}`,
+    text: ` El usuario ${email} ha realizado el siguiente pedido ${order}` 
+    
+  }
+   // SENDING
+   transporter.sendMail(userMailOptions, (error, info) => {
+    if(error){
+      console.log("error enviando mail al destinatario",error);
+    }else{
+      console.log("correo enviado al destinatario: ", info.response);
+    }
+   });
+
+   transporter.sendMail(ownerMailOptions, (error, info) => {
+    if(error) {
+      console.log("error enviando mail al propietario");
+    } else {
+      console.log("correo enviado al propietario: ", info.response);
+    }
+   })
+
+
 });
 
 module.exports = router;
