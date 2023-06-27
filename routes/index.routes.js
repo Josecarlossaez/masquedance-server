@@ -52,4 +52,8 @@ router.use("/order",orderRoutes)
 const stripeRoutes = require("./stripe.routes");
 router.use("/stripe", stripeRoutes)
 
+// * TwitchLink routes
+const twitchLinkRoutes = require("./twitchLink.routes");
+router.use("/twitchLink", twitchLinkRoutes)
+
 module.exports = router;

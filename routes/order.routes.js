@@ -3,7 +3,17 @@ const router = require("express").Router();
 
 // TRANSPORTER FROM NODEMAILER.MIDDLEWARE
 
-const transporter = require("../middlewares/nodemailer.middleware")
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth:{
+        user: 'masqdancedev@gmail.com',
+        pass: 'developermasqdance'
+    }
+})
+
+// const transporter = require("../middlewares/nodemailer.middleware")
 
 
 // USER IS LOGGED
@@ -17,6 +27,7 @@ const User = require("../models/User.model");
 
 // POST "/order/create" => Create new order
 router.post("/create", isAuthenticated, async (req, res, next) => {
+
   const {
     username,
     email,
@@ -29,7 +40,7 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
     province,
     country,
   } = req.body;
-  console.log("email", email)
+ 
 
 
   const order = {
