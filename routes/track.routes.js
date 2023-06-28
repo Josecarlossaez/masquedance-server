@@ -38,6 +38,16 @@ router.post("/create", async(req, res, next) => {
     }
 });
 
+// GET "/track/list" => view all tracks
+router.get("/list", async (req, res, next) => {
+    try {
+       const response = await Track.find()
+        res.status(200).json(response)
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 
   

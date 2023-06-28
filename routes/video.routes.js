@@ -9,10 +9,13 @@ const Video = require("../models/Video.model")
 
 // POST "/video/ create" => create video
 router.post("/create", isAdmin, async(req, res, next) => {
-    const {link} = req.body
+    const {link, title, picture, dj} = req.body
     try {
         await Video.create({
             link: link,
+            title: title,
+            picture: picture,
+            dj: dj
         })
         // sending info to client
         res.status(200).json("Video created correctly")
