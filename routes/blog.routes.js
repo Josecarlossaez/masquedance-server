@@ -10,10 +10,10 @@ const Blog = require("../models/Blog.model");
  
 // POST "/blog/create" => Create blog
  router.post("/create", isAuthenticated, isAdmin, uploader.single("picture"), async(req,res,next) => {
-    const {title, picture, description} = req.body;
+    const {link, picture, description} = req.body;
     try {
          await Blog.create({
-            title: title,
+            link: link,
             picture: picture,
             description: description,
         });
@@ -36,10 +36,10 @@ const Blog = require("../models/Blog.model");
 // PATCH "/blog/:blogId/update" => Update blog
  router.patch("/:blogId/update", isAuthenticated, isAdmin, uploader.single("picture"), async(req,res,next) => {
     const{blogId} = req.params
-    const {title, picture, description} = req.body;
+    const {link, picture, description} = req.body;
     try {
         await Blog.findByIdAndUpdate(blogId,{
-            title: title,
+            link: link,
             picture: picture,
             description: description,
         });

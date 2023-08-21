@@ -2,9 +2,9 @@ const { Schema, model, default: mongoose } = require("mongoose");
 
 const blogSchema = new Schema(
     {
-        title: {
+        link: {
             type: String,
-            required: [true, "title is required"],
+            required: [true, "link is required"],
         },
         picture: {
             type: String,
