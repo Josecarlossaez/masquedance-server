@@ -48,6 +48,24 @@ router.get("/list", async (req, res, next) => {
     }
 })
 
+// GET "/track/:djId/list" => view tracks mades by each Dj
+router.get("/:djId/list", async (req, res, next) => {
+    const { djId } = req.params;
+    try {
+        const tracksByDj = await Track.find({ dj: djId });
+        console.log("tracksByDj", tracksByDj)
+
+        // if (!tracksByDj || tracksByDj.length === 0) {
+        //     return res.status(404).json({ message: "No tracks found for this DJ." });
+        // } else {
+
+            res.status(200).json(tracksByDj);
+        // }
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 
   
